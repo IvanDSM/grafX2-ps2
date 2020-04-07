@@ -1,0 +1,17 @@
+Short: MThompson anim of a grass field
+Type: gfx/anim
+
+This is a 100 frame test animation I did as a proof of concept for a
+technique I developed to simulate tall grass blowing in the wind.
+The method used to create it are described in articles I wrote for
+Amiga Video/Graphics and a new publication, LightWave Pro (put out
+by the VTU people). It was done with LightWave 3.0 and took about
+10mins per frame with antialiasing at 752x480 resolution on a 33MHz
+Zeus equipped 2000.
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~%
+%      `       '        Mark Thompson                 CONCURRENT COMPUTER  %
+% --==* RADIANT *==--   mark@westford.ccur.com        Principal Graphics   %
+%      ' Image `        ...!uunet!masscomp!mark       Hardware Architect   %
+%     Productions       (508)392-2480 (603)424-1829   & General Nuisance   %
+%                                                                          %
+ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

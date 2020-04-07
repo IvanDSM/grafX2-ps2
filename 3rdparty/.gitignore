@@ -1,0 +1,17 @@
+archives/
+usr/
+usr-*/
+SDL-*/
+SDL_image*/
+SDL_ttf-*/
+SDL2-*/
+SDL2_image-*/
+SDL2_ttf-*/
+jpeg-*/
+libpng-*/
+tiff-*/
+zlib-*/
+freetype-*/
+lua-*/
+recoil-*/
+6502/
