@@ -1,0 +1,64 @@
+language: c
+
+addons:
+  apt:
+    packages:
+    - gcc-mingw-w64-i686
+    - g++-mingw-w64-i686
+    - mingw-w64-tools
+    - libsdl1.2-dev
+    - libsdl-image1.2-dev
+    - libsdl-ttf2.0-dev
+    - libsdl2-dev
+    - libsdl2-image-dev
+    - libsdl2-ttf-dev
+    - liblua5.3-dev
+    - nsis
+    - dos2unix
+
+sudo: false
+
+matrix:
+  include:
+    - os: osx
+    - os: linux
+      env: ''
+    - os: linux
+      env: 'WIN32CROSS=1'
+    - os: linux
+      env: 'SWITCH=1'
+      sudo: required
+    - os: linux
+      env: 'ATARICROSS=1'
+      sudo: required
+      dist: xenial
+
+compiler:
+  - gcc
+
+before_install:
+  - 'which pkg-config'
+
+# to avoid errors with  git rev-list --count 1af8c74f53110e349d8f0d19b14599281913f71f..
+install:
+  - 'git fetch --unshallow'
+  - 'if [ "$ATARICROSS" = "1" ] ; then sh ./.install-cross-mint.sh ; fi'
+  - 'if [ "$SWITCH" = "1" ] ; then sh ./.install-switch-toolchain.sh ; fi'
+
+before_script:
+  - 'if [ "$SWITCH" = "1" ] ; then source /etc/profile.d/devkit-env.sh ; fi'
+
+script:
+  - 'cd $TRAVIS_BUILD_DIR'
+  - 'if [ "$WIN32CROSS" = "1" ] || [ "$TRAVIS_OS_NAME" = "osx" ] || [ "$ATARICROSS" = "1" ] ; then make 3rdparty -j3 ; fi'
+  - 'make -j3'
+  - 'if [ "$WIN32CROSS" = "" ] && [ "$ATARICROSS" = "" ] && [ "$TRAVIS_OS_NAME" = "linux" ] ; then make check ; fi'
+  - 'make ziprelease'
+  - 'if [ "$WIN32CROSS" = "1" ] ; then make win32installer ; fi'
+  - 'if [ "$TRAVIS_OS_NAME" = "osx" ] ; then API=sdl2 make 3rdparty -j3 ; fi'
+  - 'if [ "$WIN32CROSS" = "1" ] ; then API=win32 make -j3 ; elif [ "$ATARICROSS" = "" ] ; then API=sdl2 make -j3 ; fi'
+  - 'if [ "$TRAVIS_OS_NAME" = "osx" ] ; then otool -L ${PWD}/3rdparty/usr/lib/libSDL_image-1.2.0.dylib ; echo "--" ; tools/osx_find_dependencies.sh ${PWD}/3rdparty/usr/lib/libSDL_image.dylib ; fi'
+  - 'if [ "$WIN32CROSS" = "1" ] ; then API=win32 make ziprelease ; elif [ "$ATARICROSS" = "" ] ; then API=sdl2 make ziprelease ; fi'
+  - 'if [ "$WIN32CROSS" = "1" ] ; then API=win32 make win32installer ; fi'
+  - 'if [ "$TRAVIS_OS_NAME" != "osx" ] && [ "$WIN32CROSS" = "" ] && [ "$ATARICROSS" = "" ] && [ "$SWITCH" = "" ] ; then API=x11 make -j3 ; API=x11 make ziprelease ; fi'
+  - 'if [ "$TRAVIS_OS_NAME" = "osx" ]; then otool -L bin/grafx2* ; fi'

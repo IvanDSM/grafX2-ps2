@@ -37,6 +37,7 @@
 
 #include "const.h"
 
+
 // POSIX calls it strcasecmp, Windows uses stricmp... no ANSI standard.
 #ifdef WIN32
 #ifdef _MSC_VER

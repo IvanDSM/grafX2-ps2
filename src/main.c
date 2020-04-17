@@ -100,7 +100,7 @@
 #elif defined(__FreeBSD__)
 #include <sys/endian.h>
 #elif !defined(WIN32)
-//#include <endian.h>
+#include <endian.h>
 #endif
 
 #include "gfx2log.h"

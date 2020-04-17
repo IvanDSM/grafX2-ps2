@@ -32,7 +32,7 @@
 #include <stdio.h>
 #include <string.h>
 #if !defined(_MSC_VER)
-#include <string.h>
+#include <strings.h>
 #else
 #define strdup _strdup
 #define strncasecmp _strnicmp

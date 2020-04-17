@@ -15,7 +15,7 @@
 #include "gfx2mem.h"
 #endif
 
-// PS2 Dirty Fix
+#if defined(__AROS__) || defined(__BEOS__) || defined(__MORPHOS__) || defined(__GP2X__) || defined(__WIZ__) || defined(__CAANOO__) || defined(__amigaos__) || defined(__SWITCH__)
 // These platforms don't have realpath().
 // We use the following implementation, found in:
 // http://amiga.sourceforge.net/amigadevhelp/FUNCTIONS/GeekGadgets/realpath/ex02_realpath.c
@@ -68,8 +68,13 @@
         strncpy(path, _path, PATH_MAX);
         
         if (chdir(path)) {
-            if (errno == ENOTDIR) {    // No symbolic links and no readlink()
+            if (errno == ENOTDIR) {
+                #if defined(WIN32) || defined(__MORPHOS__) || defined(__amigaos__) || defined(__SWITCH__)
+                    // No symbolic links and no readlink()
                     l = -1;
+                #else
+                    l = readlink(path, lnk, PATH_MAX);
+                #endif
                 if (!(tmp = sep(path))) {
                     resolved_path = NULL;
                     goto abort;
@@ -110,4 +115,39 @@
         close(fd);
         return resolved_path;
     }
-    
+            
+#elif defined(__WIN32__) || defined(WIN32)
+// Mingw has a working equivalent. It only has reversed arguments.
+    char *Realpath(const char *_path, char *resolved_path)
+    {
+        return _fullpath(resolved_path,_path,260);
+    }
+#else
+
+// Use the stdlib function.
+    char *Realpath(const char *_path, char *resolved_path)
+    {
+      /// POSIX 2004 states :
+      /// If resolved_name is a null pointer, the behavior of realpath()
+      /// is implementation-defined.
+      ///
+      /// but POSIX 2008 :
+      /// If resolved_name is a null pointer, the generated pathname shall
+      /// be stored as a null-terminated string in a buffer allocated as if
+      /// by a call to malloc().
+      ///
+      /// So we assume all platforms now support passing NULL.
+      /// If you find a platform where this is not the case,
+      /// please add a new implementation with ifdef's.
+#if defined(__APPLE__) && (MAC_OS_X_VERSION_MIN_REQUIRED < 1060)
+      // realpath() accept NULL as 2nd argument since OSX 10.6
+      if (resolved_path == NULL)
+      {
+        resolved_path = GFX2_malloc(PATH_MAX);
+        if (resolved_path == NULL)
+          return NULL;
+      }
+#endif
+      return realpath(_path, resolved_path);
+    }
+#endif

@@ -1,3 +1,8 @@
+ifdef WIN32CROSS
+OPT = WIN32CROSS=1 \
+
+endif
+
 .PHONY:	all tools grafx2 ziprelease 3rdparty win32installer \
         doc doxygen docarchive doxygenarchive htmldoc \
         updateversion unicodefonts check

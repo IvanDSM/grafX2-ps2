@@ -90,7 +90,7 @@
 #endif /* MOUNTED_GETFSSTAT */
 
 #ifdef MOUNTED_GETMNTENT1        /* 4.3BSD, SunOS, HP-UX, Dynix, Irix.  */
-//# include <mntent.h>
+# include <mntent.h>
 # if !defined MOUNTED
 #  if defined _PATH_MOUNTED        /* GNU libc  */
 #   define MOUNTED _PATH_MOUNTED
@@ -316,7 +316,34 @@ read_file_system_list (bool need_fs_type)
 #endif
 
 #ifdef MOUNTED_GETMNTENT1 /* GNU/Linux, 4.3BSD, SunOS, HP-UX, Dynix, Irix.  */
+  {
+    struct mntent *mnt;
+    char *table = MOUNTED;
+    FILE *fp;
+
+    fp = setmntent (table, "r");
+    if (fp == NULL)
       return NULL;
+
+    while ((mnt = getmntent (fp)))
+      {
+        me = malloc (sizeof *me);
+        me->me_devname = strdup (mnt->mnt_fsname);
+        me->me_mountdir = strdup (mnt->mnt_dir);
+        me->me_type = strdup (mnt->mnt_type);
+        me->me_type_malloced = 1;
+        me->me_dummy = ME_DUMMY (me->me_devname, me->me_type);
+        me->me_remote = ME_REMOTE (me->me_devname, me->me_type);
+        me->me_dev = dev_from_mount_options (mnt->mnt_opts);
+
+        /* Add to the linked list. */
+        *mtail = me;
+        mtail = &me->me_next;
+      }
+
+    if (endmntent (fp) == 0)
+      goto free_then_fail;
+  }
 #endif /* MOUNTED_GETMNTENT1. */
 
 #ifdef MOUNTED_GETMNTINFO        /* 4.4BSD.  */

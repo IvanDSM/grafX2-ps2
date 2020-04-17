@@ -23,7 +23,7 @@
 */
 #include <string.h>
 #ifndef _MSC_VER
-#include <string.h>
+#include <strings.h>
 #endif
 #include <stdlib.h>
 #include <stdio.h>
@@ -45,39 +45,9 @@
 
 // I don't have round() in MSVC++ 2010 (_MSC_VER=1600)
 // or in mintlib
-
-// Ivan: Well buddy, we don't have it on the PS2 either :P
+#if (defined(_MSC_VER) && (_MSC_VER < 1900)) || defined(__MINT__)
 #define round(x) floor(x+0.5)
-
-
-// Ivan's PS2 gambiarra
-// Some functions are missing in the ps2sdk's libc. Here's some replacements
-
-// Some copy-pasted stuff to replace unavailable functions
-// This funtcion replaces count_set_bits and I got it from GeeksForGeeks
-unsigned int oldiesps2_count_set_bits(unsigned int n) 
-{ 
-    unsigned int count = 0; 
-    while (n) { 
-        count += n & 1; 
-        n >>= 1; 
-    } 
-    return count; 
-} 
-
-// This function replaces count_trailing_zeros and was made by https://github.com/andrewrk
-unsigned int oldiesps2_count_trailing_zeros(unsigned int n) {
-    if (n == 0) {
-        return -1;
-    }
-    unsigned count = 0;
-    while (n % 2 == 0) {
-        count++;
-        n >>= 1;
-    }
-    return count;
-}
-
+#endif
 
 
 static const struct {
@@ -206,7 +176,7 @@ int C64_FLI(T_IO_Context * context, byte *bitmap, byte *screen_ram, byte *color_
     memset(usage,0,16*sizeof(dword));
     for (col=0;col<40;col++)
     {
-      used_colors_count[row][col] = oldiesps2_count_set_bits(used_colors[row][col]);
+      used_colors_count[row][col] = count_set_bits(used_colors[row][col]);
       // Count which colors are used 3 times
       if (used_colors_count[row][col]==3)
       {
@@ -277,7 +247,7 @@ int C64_FLI(T_IO_Context * context, byte *bitmap, byte *screen_ram, byte *color_
             }
           }
         }
-        if (filter != 0 && oldiesps2_count_set_bits(filter) == 1)
+        if (filter != 0 && count_set_bits(filter) == 1)
         {
           // Only one color matched all needs: Use it.
           i=1;
@@ -469,7 +439,7 @@ int C64_pixels_to_FLI(byte *bitmap, byte *screen_ram, byte *color_ram,
           // if (pixel > 15) error
           colors_used |= 1 << pixel;
         }
-        n_color_used = oldiesps2_count_set_bits(colors_used);
+        n_color_used = count_set_bits(colors_used);
         if (n_color_used == 4)
         {
           background_possible[cy] &= colors_used; // The background is among the color used in this 4x1 block
@@ -480,7 +450,7 @@ int C64_pixels_to_FLI(byte *bitmap, byte *screen_ram, byte *color_ram,
     // Choose background (default is black #0)
     for(cy = 0; cy < 8; cy++)
     {
-      int n_possible_backgrounds = oldiesps2_count_set_bits(background_possible[cy]);
+      int n_possible_backgrounds = count_set_bits(background_possible[cy]);
       if (n_possible_backgrounds == 0)
       {
         //ERROR
@@ -499,7 +469,7 @@ int C64_pixels_to_FLI(byte *bitmap, byte *screen_ram, byte *color_ram,
       {
         // if the caller gave us a "hint", check it is "possible"
         if (background[by*8+cy] >= 16 || (background_possible[cy] & (1 << background[by*8+cy])) == 0)
-          background[by*8+cy] = oldiesps2_count_trailing_zeros(background_possible[cy]); // pick the first possible
+          background[by*8+cy] = count_trailing_zeros(background_possible[cy]); // pick the first possible
 #ifdef _DEBUG
         if (background[by*8+cy] != 0)
           GFX2_Log(GFX2_DEBUG, "  y=%d background_possible=$%04x (count=%d) background color=#%d\n",
@@ -527,7 +497,7 @@ int C64_pixels_to_FLI(byte *bitmap, byte *screen_ram, byte *color_ram,
           }
         }
         colors_used &= ~(1 << background[by*8+cy]);  // remove background
-        n_color_used = oldiesps2_count_set_bits(colors_used);
+        n_color_used = count_set_bits(colors_used);
         if (n_color_used == 3)
         {
           color_ram_possible[bx] &= colors_used;       // The color 11 is among the color used in this 4x1 block
@@ -553,7 +523,7 @@ int C64_pixels_to_FLI(byte *bitmap, byte *screen_ram, byte *color_ram,
               if (pixel < 16 && pixel != background[by*8+cy])
                 colors_used |= 1 << pixel;
             }
-            if (oldiesps2_count_set_bits(colors_used) >= 3)
+            if (count_set_bits(colors_used) >= 3)
             {
               error_count++;
               GFX2_Log(GFX2_INFO, "C64_pixels_to_FLI() too much colors in block at (%u to %u, %u)\n", bx*4, bx*4+3, by*7+cy);
@@ -578,7 +548,7 @@ int C64_pixels_to_FLI(byte *bitmap, byte *screen_ram, byte *color_ram,
         { // pickup most used color (but not background color)
           byte col;
           word max_usage = 0;
-          byte max_index = oldiesps2_count_trailing_zeros(possible);  // default to 1st color (except background)
+          byte max_index = count_trailing_zeros(possible);  // default to 1st color (except background)
 
           for (col = max_index; col < 16; col++)
           {
@@ -591,7 +561,7 @@ int C64_pixels_to_FLI(byte *bitmap, byte *screen_ram, byte *color_ram,
           color_ram[by*40+bx] = max_index;
         }
         else
-          color_ram[by*40+bx] = oldiesps2_count_trailing_zeros(color_ram_possible[bx]);
+          color_ram[by*40+bx] = count_trailing_zeros(color_ram_possible[bx]);
 #ifdef _DEBUG
         if (color_ram[by*40+bx] != 0)
           GFX2_Log(GFX2_DEBUG, "bx=%d by=%d color_ram_possible=%04x color11=#%d\n",

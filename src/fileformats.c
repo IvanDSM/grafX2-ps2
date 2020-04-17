@@ -69,37 +69,6 @@
 #define MIN(a,b) ((a)<(b)?(a):(b))
 #endif
 
-
-// Ivan's PS2 gambiarra
-// Some functions are missing in the ps2sdk's libc. Here's some replacements
-
-// Some copy-pasted stuff to replace unavailable functions
-// This funtcion replaces count_set_bits and I got it from GeeksForGeeks
-unsigned int ps2_count_set_bits(unsigned int n) 
-{ 
-    unsigned int count = 0; 
-    while (n) { 
-        count += n & 1; 
-        n >>= 1; 
-    } 
-    return count; 
-} 
-
-// This function replaces count_trailing_zeros and was made by https://github.com/andrewrk
-unsigned int ps2_count_trailing_zeros(unsigned int n) {
-    if (n == 0) {
-        return -1;
-    }
-    unsigned count = 0;
-    while (n % 2 == 0) {
-        count++;
-        n >>= 1;
-    }
-    return count;
-}
-
-
-
 void Draw_IFF_line(T_IO_Context *context, const byte * buffer, short y_pos, short real_line_size, byte bitplanes);
 
 //////////////////////////////////// IMG ////////////////////////////////////
@@ -885,7 +854,6 @@ static void Load_BMP_Palette(T_IO_Context * context, FILE * file, unsigned int n
 /// We are decoding the AND-mask plane (transparency) of a .ICO file
 #define LOAD_BMP_PIXEL_FLAG_TRANSP_PLANE 0x02
 
-
 static void Load_BMP_Pixels(T_IO_Context * context, FILE * file, unsigned int compression, unsigned int nbbits, int flags, const dword * mask)
 {
   unsigned int index;
@@ -907,8 +875,8 @@ static void Load_BMP_Pixels(T_IO_Context * context, FILE * file, unsigned int co
     }
     else
     {
-      bits[i] = ps2_count_set_bits(mask[i]);
-      shift[i] = ps2_count_trailing_zeros(mask[i]);
+      bits[i] = count_set_bits(mask[i]);
+      shift[i] = count_trailing_zeros(mask[i]);
     }
   }
 

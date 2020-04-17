@@ -71,7 +71,7 @@ int Create_ConfigDirectory(const char * config_dir)
   #if defined(__WIN32__) || defined(WIN32)
     return CreateDirectoryA(config_dir, NULL) ? 0 : -1;
   #else
-    return mkdir(config_dir);
+    return mkdir(config_dir,S_IRUSR|S_IWUSR|S_IXUSR);
   #endif
 }
 

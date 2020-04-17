@@ -47,11 +47,11 @@
 #define snprintf _snprintf
 #endif
 #else
-#include <string.h>
+#include <strings.h>
 #include <unistd.h>
 #endif
 #include <ctype.h>
-//#include <wctype.h>
+#include <wctype.h>
 #include <sys/types.h>
 
 #include "const.h"
@@ -1353,7 +1353,7 @@ static short Find_filename_match(const T_Fileselector *list, const word * fname)
       {
         for (counter = 0; fname[counter] != 0; counter++)
         {
-          if (tolower(current_item->Unicode_full_name[counter]) != tolower(fname[counter]))
+          if (towlower(current_item->Unicode_full_name[counter]) != towlower(fname[counter]))
             break;
         }
       }
@@ -1361,7 +1361,7 @@ static short Find_filename_match(const T_Fileselector *list, const word * fname)
       {
         for (counter=0; fname[counter] != 0; counter++)
         {
-          if ((int)tolower(current_item->Full_name[counter]) != tolower(fname[counter]))
+          if ((wint_t)tolower(current_item->Full_name[counter]) != towlower(fname[counter]))
             break;
         }
       }

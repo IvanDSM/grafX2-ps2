@@ -27,7 +27,7 @@
 #include <stdlib.h>
 #include <string.h>
 #ifndef _MSC_VER
-#include <string.h>
+#include <strings.h>
 #include <unistd.h>
 #endif
 #if defined(WIN32)
