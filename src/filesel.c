@@ -47,7 +47,9 @@
 #define snprintf _snprintf
 #endif
 #else
+#ifndef _EE
 #include <strings.h>
+#endif
 #include <unistd.h>
 #endif
 #include <ctype.h>

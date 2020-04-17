@@ -27,7 +27,9 @@
 #endif
 #include <string.h>
 #ifndef _MSC_VER
+#ifndef _EE
 #include <strings.h>
+#endif
 #endif
 #include <stdlib.h>
 #include <math.h>
@@ -708,7 +710,7 @@ void Zoom_a_line(byte* original_line, byte* zoomed_line,
   #include <mint/sysbind.h>
 #elif defined(__SKYOS__)
   #include <skyos/sysinfo.h>
-#else
+#elif !defined(_EE)
   #include <sys/sysinfo.h> // sysinfo() for free RAM
 #endif
 
@@ -784,7 +786,7 @@ unsigned long Memory_free(void)
   // There is some way to get memory information on switch (see include switch/kernel/svc.h svcGetInfo svcGetSystemInfo)
   // but the usage is a bit confusing for the first and the later need privilege to be used.
   // If you come here with a solution, you'r welcome. For now we just return the default value.
-#elif
+#else
 #warning "There is missing code there for your platform ! please check and correct :)"
 #endif
   return 10*1024*1024;

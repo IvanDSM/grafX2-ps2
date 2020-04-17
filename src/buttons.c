@@ -31,7 +31,7 @@
 #include <fcntl.h>
 #include <stdio.h>
 #include <string.h>
-#if !defined(_MSC_VER)
+#if !defined(_MSC_VER) && !defined(_EE)
 #include <strings.h>
 #else
 #define strdup _strdup

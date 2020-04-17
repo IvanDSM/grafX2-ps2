@@ -541,6 +541,25 @@ endif
       PLATFORMFILES += bin/SDL2.dll bin/SDL2_image.dll
       endif
     else
+      ifdef PS2CROSS
+        #cross compile an exec for the ps2
+        API = sdl
+        CC = ee-gcc
+        BIN = ../bin/grafx2-ps2.elf
+        COPT = -D_EE 
+        COPT += -W -Wall -std=c99 -O2
+        COPT += -I./ps2
+        COPT += -I$(PS2SDK)/ee/include -I$(PS2SDK)/common/include
+        COPT += -I$(PS2SDK)/ports/include -I$(PS2SDK)/ports/include/SDL
+        LOPT = -L$(PS2SDK)/ee/lib -L$(PS2SDK)/ports/lib
+        LOPT += -lsdl -lm -lSDL_image -ltiff -ljpeg -png -lz
+        LOPT += -lc -lkernel
+        OBJDIR = ../obj/ps2
+        NOLUA = 1 # Currently unsupported :(
+        NOTTF = 1 # Currently unsupported :(
+        PLATFORM = ps2
+        JOYCOPT = -DUSE_JOYSTICK
+      else
       ifdef GP2XCROSS
         #cross compile an exec for the gp2x
         #CC = /opt/open2x/gcc-4.1.1-glibc-2.3.6/arm-open2x-linux/bin/arm-open2x-linux-gcc
@@ -709,6 +728,7 @@ endif
           endif
         endif
 
+      endif
       endif
       endif
       endif

@@ -6,7 +6,10 @@
         {
             "label": "Build grafX2-ps2",
             "type": "shell",
-            "command": "make"
+            "command": "make",
+            "problemMatcher": [
+                "$gcc"
+            ]
         },
         {
             "label": "Rebuild grafX2-ps2",
