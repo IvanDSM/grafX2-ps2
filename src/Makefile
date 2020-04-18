@@ -553,8 +553,8 @@ endif
         COPT += -I$(PS2SDK)/ee/include -I$(PS2SDK)/common/include
         COPT += -I$(PS2SDK)/ports/include -I$(PS2SDK)/ports/include/SDL
         LOPT = -L$(PS2SDK)/ee/lib -L$(PS2SDK)/ports/lib
-        LOPT += -lsdl -lm -lSDL_image -ltiff -ljpeg -png -lz
-        LOPT += -lc -lkernel
+        LOPT += -lm -lSDL_image -lsdl -ltiff -ljpeg -lpng -lz
+        LOPT += -lc -lkernel 
         OBJDIR = ../obj/ps2
         NOLUA = 1 # Currently unsupported :(
         NOTTF = 1 # Currently unsupported :(

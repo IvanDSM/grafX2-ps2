@@ -37,7 +37,10 @@
 #endif
 #endif
 
-#if defined(__MINT__)
+/*  We're not supposed to need this for the PS2 I think
+    But it's gonna have to do it for now :/
+*/
+#if defined(__MINT__) || defined(_EE)
 #define fabsf(x)  __builtin_fabsf(x)
 #endif
 

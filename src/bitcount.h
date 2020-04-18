@@ -27,7 +27,7 @@
 #ifndef BITCOUNT_H__
 #define BITCOUNT_H__
 
-#if defined(__GNUC__) && __GNUC__ > 2
+#if defined(__GNUC__) && __GNUC__ > 2 && !defined(_EE)
 /* use GCC built in's */
 #define count_set_bits __builtin_popcount
 #define count_trailing_zeros __builtin_ctz

@@ -47,7 +47,8 @@
 
 // I don't have round() in MSVC++ 2010 (_MSC_VER=1600)
 // or in mintlib
-#if (defined(_MSC_VER) && (_MSC_VER < 1900)) || defined(__MINT__)
+/* We should have it on the PS2... I think... But for now this'll have to do*/
+#if (defined(_MSC_VER) && (_MSC_VER < 1900)) || defined(__MINT__) || defined(_EE)
 #define round(x) floor(x+0.5)
 #endif
 
