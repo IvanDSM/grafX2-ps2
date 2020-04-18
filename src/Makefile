@@ -549,6 +549,7 @@ endif
         COPT = -D_EE 
         COPT += -W -Wall -std=c99 -O2
         COPT += -I./ps2
+        COPT += -I$(PS2SDK)/common/include
         COPT += -I$(PS2SDK)/ee/include -I$(PS2SDK)/common/include
         COPT += -I$(PS2SDK)/ports/include -I$(PS2SDK)/ports/include/SDL
         LOPT = -L$(PS2SDK)/ee/lib -L$(PS2SDK)/ports/lib

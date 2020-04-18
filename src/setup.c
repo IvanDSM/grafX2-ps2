@@ -29,6 +29,10 @@
 #include <stdlib.h>
 #include <sys/types.h>
 #include <sys/stat.h>
+// PS2 needs some defines
+#ifdef _EE
+#include "ps2/stat_defines.h"
+#endif
 #if defined(__WIN32__) || defined(WIN32)
   #include <windows.h>
 #ifdef _MSC_VER

@@ -99,7 +99,7 @@
 #include <machine/endian.h>
 #elif defined(__FreeBSD__)
 #include <sys/endian.h>
-#elif !defined(WIN32)
+#elif !defined(WIN32) && !defined(_EE)
 #include <endian.h>
 #endif
 
