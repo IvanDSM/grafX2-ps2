@@ -1,4 +1,4 @@
-// Ivan's stdint for the PS2SDK
+// IvanDSM's stdint for the PS2SDK
 // Based on the GCC implementation
 
 #ifndef _STDINT_H

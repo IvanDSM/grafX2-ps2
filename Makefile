@@ -7,11 +7,14 @@ endif
 OPT = PS2CROSS=1 \
 #endif
 
-.PHONY:	all tools grafx2 ziprelease 3rdparty win32installer \
+.PHONY:	all clean tools grafx2 ziprelease 3rdparty win32installer \
         doc doxygen docarchive doxygenarchive htmldoc \
         updateversion unicodefonts check
 
 all:	grafx2 tools
+
+clean:
+	$(OPT)$(MAKE) clean -C src/
 
 doc:	doxygen
 

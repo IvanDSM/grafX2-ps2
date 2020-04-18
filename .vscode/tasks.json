@@ -15,6 +15,11 @@
             "label": "Rebuild grafX2-ps2",
             "type": "shell",
             "command": "make clean && make"
+        },
+        {
+            "label": "Clean grafX2-ps2",
+            "type": "shell",
+            "command": "make clean"
         }
     ]
 }
