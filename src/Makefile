@@ -1192,7 +1192,11 @@ $(OBJDIR)/loadrecoil.o:	recoil.c recoil.h
 ../3rdparty/recoil-$(RECOILVER)/recoil.c:
 	if [ -d ../3rdparty ] ; then $(MAKE) -C ../3rdparty recoil ; fi
 
+ifdef PS2CROSS
+$(OBJDIR)/recoil.o:	CFLAGS += -Wno-unused-parameter -std=gnu99
+else
 $(OBJDIR)/recoil.o:	CFLAGS += -Wno-declaration-after-statement -Wno-unused-parameter -std=gnu99
+endif
 endif
 
 6502.h:	6502.c
