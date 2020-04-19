@@ -155,7 +155,7 @@ void Button_Message_initial(void)
   char  str[30];
   int   x_pos,offs_y,x,y;
   int clicked_button=0;
-
+  
   snprintf(str,sizeof(str),"GrafX2 version %s",Program_version);
   Open_window(260,172,str);
 

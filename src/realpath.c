@@ -15,7 +15,7 @@
 #include "gfx2mem.h"
 #endif
 
-#if defined(__AROS__) || defined(__BEOS__) || defined(__MORPHOS__) || defined(__GP2X__) || defined(__WIZ__) || defined(__CAANOO__) || defined(__amigaos__) || defined(__SWITCH__)
+#if defined(__AROS__) || defined(__BEOS__) || defined(__MORPHOS__) || defined(__GP2X__) || defined(__WIZ__) || defined(__CAANOO__) || defined(__amigaos__) || defined(__SWITCH__) || defined(_EE)
 // These platforms don't have realpath().
 // We use the following implementation, found in:
 // http://amiga.sourceforge.net/amigadevhelp/FUNCTIONS/GeekGadgets/realpath/ex02_realpath.c
@@ -69,7 +69,7 @@
         
         if (chdir(path)) {
             if (errno == ENOTDIR) {
-                #if defined(WIN32) || defined(__MORPHOS__) || defined(__amigaos__) || defined(__SWITCH__)
+                #if defined(WIN32) || defined(__MORPHOS__) || defined(__amigaos__) || defined(__SWITCH__) || defined(_EE)
                     // No symbolic links and no readlink()
                     l = -1;
                 #else

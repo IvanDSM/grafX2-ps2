@@ -560,6 +560,8 @@ void Read_list_of_drives(T_Fileselector *list, byte name_length)
         drive_index++;
       }
     }
+  #elif defined(_EE)
+    printf("FIXME: read_list_of_drives is STUBBED OUT!!!");
   #else
   {
     //Sous les différents unix, on va mettre
