@@ -33,7 +33,7 @@
 #include <string.h>
 #if !defined(_MSC_VER) && !defined(_EE)
 #include <strings.h>
-#else
+#elif !defined(_EE)
 #define strdup _strdup
 #define strncasecmp _strnicmp
 #if _MSC_VER < 1900
