@@ -552,15 +552,17 @@ endif
         COPT += -I$(PS2SDK)/common/include
         COPT += -I$(PS2SDK)/ee/include -I$(PS2SDK)/common/include
         COPT += -I$(PS2SDK)/ports/include -I$(PS2SDK)/ports/include/SDL
-        COPT += -DNOTTF=1 $(LUACOPT) $(JOYCOPT)
+        COPT += $(TTFCOPT)
+        #COPT += $(LUACOPT)
+        COPT += $(JOYCOPT)
         LOPT = -L$(PS2SDK)/ee/lib -L$(PS2SDK)/ports/lib
         LOPT += -Xlinker --start-group
-        LOPT += -lm -lSDL_image -lsdl -ltiff -ljpeg -lpng -lz
-        LOPT += -llua -llualib
+        LOPT += -lm -lSDL_image -lsdl -lfreetype -lSDL_ttf -ltiff -ljpeg -lpng -lz
+        #LOPT += -llua -llualib
         LOPT += -lc -lkernel
         LOPT += -Xlinker --end-group
         OBJDIR = ../obj/ps2
-        NOTTF = 1 # Currently unsupported :(
+        NOLUA = 1 # Currently unsupported :(
         PLATFORM = ps2
         JOYCOPT = -DUSE_JOYSTICK
       else

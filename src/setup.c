@@ -29,10 +29,6 @@
 #include <stdlib.h>
 #include <sys/types.h>
 #include <sys/stat.h>
-// PS2 needs some defines
-#ifdef _EE
-#include "ps2/stat_defines.h"
-#endif
 #if defined(__WIN32__) || defined(WIN32)
   #include <windows.h>
 #ifdef _MSC_VER
@@ -74,8 +70,6 @@ int Create_ConfigDirectory(const char * config_dir)
 {
   #if defined(__WIN32__) || defined(WIN32)
     return CreateDirectoryA(config_dir, NULL) ? 0 : -1;
-  #elif defined(_EE)
-    return mkdir(config_dir);
   #else
     return mkdir(config_dir,S_IRUSR|S_IWUSR|S_IXUSR);
   #endif

@@ -42,7 +42,7 @@
 #endif
 
 #if !defined(WIN32) && !defined(USE_SDL) && !defined(USE_SDL2)
-#if defined(__macosx__)
+#if defined(__macosx__) || defined(_EE)
 #include <machine/endian.h>
 #elif defined(__FreeBSD__)
 #include <sys/endian.h>

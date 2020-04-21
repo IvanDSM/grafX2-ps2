@@ -95,7 +95,7 @@
 
 #if defined(__macosx__)
 #include <machine/endian.h>
-#elif defined(__SWITCH__)
+#elif defined(__SWITCH__) || defined(_EE)
 #include <machine/endian.h>
 #elif defined(__FreeBSD__)
 #include <sys/endian.h>

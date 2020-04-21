@@ -29,17 +29,12 @@
 #include <stdlib.h>
 #include <string.h>
 #include <sys/stat.h>
-// PS2 needs some defines and a lockf implementation
+// PS2 needs a lockf implementation
 #ifdef _EE
 #include "ps2/lockf.h"
-#include "ps2/stat_defines.h"
 #endif
 #include <errno.h>
-#ifndef _EE
-#include <fcntl.h>
-#else
 #include <sys/fcntl.h>
-#endif
 #ifndef _MSC_VER
 #include <unistd.h>
 #else
