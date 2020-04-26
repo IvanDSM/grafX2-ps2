@@ -655,6 +655,10 @@ int Init_program(int argc,char * argv[])
 
   // Determine the executable directory
   program_directory = Get_program_directory(argv[0]);
+  char* debugpath = strdup(program_directory);
+  strcat(debugpath, "debug_log\0");
+  GFX2_Log(GFX2_DEBUG, "Debug log path is %s\n", debugpath);
+  debugfile = fopen(debugpath, "w");
   // Choose directory for data (read only)
   Data_directory = Get_data_directory(program_directory);
   // Choose directory for settings (read/write)

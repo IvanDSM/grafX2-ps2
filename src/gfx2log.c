@@ -73,6 +73,10 @@ extern void GFX2_LogV(GFX2_Log_priority_T priority, const char * fmt, va_list ap
   }
 #else
   vfprintf((unsigned)priority >= GFX2_INFO ? stdout : stderr, fmt, ap);
+  #if defined(_EE)
+  vfprintf(debugfile, fmt, ap);
+  fflush(debugfile);
+  #endif
 #endif
 #if defined(_MSC_VER) && defined(_DEBUG) && !defined(USE_SDL2)
   {

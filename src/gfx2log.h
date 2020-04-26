@@ -22,6 +22,7 @@
 #define GFX2LOG_H_DEFINED
 
 #include <stdarg.h>
+#include <stdio.h>
 #include "struct.h"
 
 /**
@@ -29,6 +30,8 @@
  * Functions to log error and debugging messages.
  * @{
  */
+
+FILE* debugfile;
 
 typedef enum {
   GFX2_ERROR = 0,

@@ -15,7 +15,7 @@
 #include "gfx2mem.h"
 #endif
 
-#if defined(__AROS__) || defined(__BEOS__) || defined(__MORPHOS__) || defined(__GP2X__) || defined(__WIZ__) || defined(__CAANOO__) || defined(__amigaos__) || defined(__SWITCH__) || defined(_EE)
+#if defined(__AROS__) || defined(__BEOS__) || defined(__MORPHOS__) || defined(__GP2X__) || defined(__WIZ__) || defined(__CAANOO__) || defined(__amigaos__) || defined(__SWITCH__)
 // These platforms don't have realpath().
 // We use the following implementation, found in:
 // http://amiga.sourceforge.net/amigadevhelp/FUNCTIONS/GeekGadgets/realpath/ex02_realpath.c
@@ -121,6 +121,17 @@
     char *Realpath(const char *_path, char *resolved_path)
     {
         return _fullpath(resolved_path,_path,260);
+    }
+#elif defined(_EE)
+// Very hacky implementation for the PS2
+    char *Realpath(const char *_path, char *resolved_path)
+    {
+        char* new_path = strdup(_path);
+        char* last_slash = strrchr(new_path, '/');
+        last_slash++;
+        *last_slash = '\0';
+        strcpy(resolved_path, new_path);
+        return new_path;
     }
 #else
 

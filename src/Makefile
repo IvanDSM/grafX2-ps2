@@ -554,7 +554,7 @@ endif
         COPT += -I$(PS2SDK)/ports/include -I$(PS2SDK)/ports/include/SDL
         COPT += $(TTFCOPT)
         #COPT += $(LUACOPT)
-        COPT += $(JOYCOPT) -G0
+        COPT += $(JOYCOPT) -G0 -D_DEBUG
         LOPT = -L$(PS2SDK)/ee/lib -L$(PS2SDK)/ports/lib
         LOPT += -Xlinker --start-group
         LOPT += -lm -lSDL_image -lsdl -lfreetype -lSDL_ttf -ltiff -ljpeg -lpng -lz
@@ -564,7 +564,7 @@ endif
         OBJDIR = ../obj/ps2
         NOLUA = 1 # Currently unsupported :(
         PLATFORM = ps2
-        JOYCOPT = -DUSE_JOYSTICK
+        #JOYCOPT = -DUSE_JOYSTICK
       else
       ifdef GP2XCROSS
         #cross compile an exec for the gp2x
