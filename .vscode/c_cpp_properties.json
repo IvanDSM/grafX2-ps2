@@ -1,0 +1,19 @@
+{
+    "configurations": [
+        {
+            "name": "PS2",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "${PS2DEV}/ee/include",
+                "${PS2SDK}/common/include",
+                "${PS2SDK}/ee/include"
+            ],
+            "defines": ["_EE"],
+            "compilerPath": "${PS2DEV}/ee/bin/ee-gcc",
+            "cStandard": "c99",
+            "cppStandard": "c++98",
+            "intelliSenseMode": "gcc-x64"
+        }
+    ],
+    "version": 4
+}

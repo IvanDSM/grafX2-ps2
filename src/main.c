@@ -136,6 +136,11 @@
 #include "win32screen.h"
 #endif
 
+// PS2 IRX loading header
+#if defined(_EE)
+#include <debug.h>
+#include "ps2/iopmodules.h"
+#endif
 
 #if defined (WIN32) && (defined(USE_SDL) || defined(USE_SDL2))
   // On Windows, SDL_putenv is not present in any compilable header.
@@ -628,6 +633,11 @@ int Init_program(int argc,char * argv[])
   atexit(Exit_handler);
   #endif
 
+  #if defined(_EE)
+  init_scr();
+  Ps2_load_modules();
+  #endif
+
 #ifdef ENABLE_FILENAMES_ICONV
   // iconv is used to convert filenames
   cd = iconv_open(TOCODE, FROMCODE);  // From UTF8 to ANSI
@@ -656,15 +666,19 @@ int Init_program(int argc,char * argv[])
   // Determine the executable directory
   program_directory = Get_program_directory(argv[0]);
   char* debugpath = strdup(program_directory);
-  strcat(debugpath, "debug_log\0");
-  GFX2_Log(GFX2_DEBUG, "Debug log path is %s\n", debugpath);
+  strcat(debugpath, "dbg\0");
   debugfile = fopen(debugpath, "w");
+  GFX2_Log(GFX2_DEBUG, "Debug log path is %s\n", debugpath);
   // Choose directory for data (read only)
   Data_directory = Get_data_directory(program_directory);
   // Choose directory for settings (read/write)
   Config_directory = Get_config_directory(program_directory);
   // Get current directory
+  #if !defined(_EE) // UGLY HACK
   Main.selector.Directory = Get_current_directory(NULL, &Main.selector.Directory_unicode, 0);
+  #else
+  Main.selector.Directory = strdup(program_directory);
+  #endif
 
   GFX2_Log(GFX2_DEBUG, "program directory : %s\n", program_directory);
   GFX2_Log(GFX2_DEBUG, "Data directory : %s\n", Data_directory);
@@ -746,7 +760,6 @@ int Init_program(int argc,char * argv[])
   Spare.safety_backup_prefix = SAFETYBACKUP_PREFIX_B[0];
   Main.time_of_safety_backup = 0;
   Spare.time_of_safety_backup = 0;
-
 
 #if defined(USE_SDL) || defined(USE_SDL2)
   // SDL

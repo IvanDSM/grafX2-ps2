@@ -130,6 +130,8 @@
         char* last_slash = strrchr(new_path, '/');
         last_slash++;
         *last_slash = '\0';
+        if (resolved_path == NULL)
+            resolved_path = malloc(sizeof(new_path));
         strcpy(resolved_path, new_path);
         return new_path;
     }

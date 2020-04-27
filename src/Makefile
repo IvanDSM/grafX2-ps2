@@ -559,7 +559,7 @@ endif
         LOPT += -Xlinker --start-group
         LOPT += -lm -lSDL_image -lsdl -lfreetype -lSDL_ttf -ltiff -ljpeg -lpng -lz
         #LOPT += -llua -llualib
-        LOPT += -lc -lkernel
+        LOPT += -ldebug -lc -lkernel
         LOPT += -Xlinker --end-group
         OBJDIR = ../obj/ps2
         NOLUA = 1 # Currently unsupported :(
@@ -851,6 +851,9 @@ OBJS = main.o init.o graph.o $(APIOBJ) misc.o special.o \
        gfx2log.o gfx2mem.o tifformat.o c64load.o 6502.o
 ifndef NORECOIL
 OBJS += loadrecoil.o recoil.o
+endif
+ifdef PS2CROSS
+OBJS += ps2/iopmodules.o
 endif
 
 TESTSOBJS = $(patsubst %.c,%.o,$(wildcard tests/*.c)) \

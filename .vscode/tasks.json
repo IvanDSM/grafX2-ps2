@@ -17,7 +17,11 @@
             "command": "make clean && make",
             "problemMatcher": [
                 "$gcc"
-            ]
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
         },
         {
             "label": "Clean grafX2-ps2",
